@@ -1,25 +1,22 @@
-// import HomeView from "views/HomeView/HomeView"
-import UserMenu from "components/UserMenu/UserMenu"
-import AuthNav from '../AuthNav/AuthNav'
-import Navigation from '../Navigation/Navigation'
-import { useSelector } from "react-redux"
-import { authSelectors } from "../../redux/auth"
-// import {NavLink} from 'react-router-dom'
+import UserMenu from 'components/UserMenu/UserMenu';
+import AuthNav from '../AuthNav/AuthNav';
+import Navigation from '../Navigation/Navigation';
+import { useSelector } from 'react-redux';
+import { authSelectors } from '../../redux/auth';
+import { Box, Flex, Container } from '@chakra-ui/react';
 
-export default function AppBar(){
-    const isLoggedIn = useSelector(authSelectors.getIsLoggedIn)
-    // const isLoggedIn = useSelector(state=>state.auth.isLoggedIn)
-    console.log(isLoggedIn)
-    return(
-        <>
-       
-        <Navigation />
+export default function AppBar() {
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
 
-        {isLoggedIn?  
-        // <NavLink to="contacts"/>
-        <UserMenu/>
-        
-        :<AuthNav/>}
-        </>
-    )
+  return (
+    <Box as="header" py={3} bg="gray.100">
+      <Container maxW="container.lg">
+        <Flex justifyContent="space-between" alignItems="center">
+          <Navigation />
+
+          {isLoggedIn ? <UserMenu /> : <AuthNav />}
+        </Flex>
+      </Container>
+    </Box>
+  );
 }

@@ -1,28 +1,31 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from '../../../redux/filterSlice';
-
 import { contactsSelectors, changeFilter } from '../../../redux/contacts';
-
-import s from './Filter.module.css';
+import { SearchIcon } from '@chakra-ui/icons';
+import { InputGroup, InputLeftElement, Input, Flex } from '@chakra-ui/react';
 
 export default function Filter() {
   const dispatch = useDispatch();
   const filter = useSelector(contactsSelectors.getFilter);
 
-  // const changeFilter = e => {
-  //   dispatch(setFilter(e.currentTarget.value));
-  // };
-
   return (
-    <label className={s.filter}>
-      <input
-        type="text"
-        value={filter}
-        onChange={e=>dispatch(changeFilter(e.currentTarget.value))}
-        placeholder="Find contacts by name"
-      />
-    </label>
+    <Flex justifyContent="center">
+      <InputGroup m="3" width="400px" mt='18'>
+        <InputLeftElement
+          pointerEvents="none"
+          children={<SearchIcon color="gray.300" />}
+        />
+
+        <Input
+          maxW="container.sm"
+          placeholder="Find contacts by name"
+          type="text"
+          value={filter}
+          onChange={e => dispatch(changeFilter(e.currentTarget.value))}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        />
+      </InputGroup>
+    </Flex>
   );
 }
-

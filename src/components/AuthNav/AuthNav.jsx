@@ -1,29 +1,25 @@
-import { NavLink} from 'react-router-dom';
-import s from './AuthNav.module.css';
-
-
+import { NavLink } from 'react-router-dom';
+import { Button, Flex, Box } from '@chakra-ui/react';
 
 export default function AuthNav() {
-  
   return (
-    <>
-      <NavLink
-        to="register"
-       
-        className={({ isActive }) => (isActive ? s.activeLink : s.link)}
-      >
-        Registration
-      </NavLink>
+    <div>
+      <Flex>
+        <Box mx="4">
+          <NavLink to="register">
+            <Button colorScheme="teal" variant="solid">
+              Sign Up
+            </Button>
+          </NavLink>
+        </Box>
 
-      <NavLink
-        to="login"
-       
-        className={({ isActive }) => (isActive ? s.activeLink : s.link)}
-      >
-        LogIn
-      </NavLink>
-    
-      {/* <Outlet /> */}
-    </>
+        <NavLink to="login">
+          <Button colorScheme="teal" variant="outline">
+           
+            Log In
+          </Button>
+        </NavLink>
+      </Flex>
+    </div>
   );
 }

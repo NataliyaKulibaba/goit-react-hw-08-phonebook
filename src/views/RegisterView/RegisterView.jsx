@@ -1,24 +1,27 @@
 import { useState } from 'react';
-// import { Link,useNavigate, useLocation} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-// import { register } from '../../redux/auth/auth-operations';
-import { authOperations } from '../../redux/auth';
 
-export default function RegisterView (){
+import { useDispatch } from 'react-redux';
+
+import { authOperations } from '../../redux/auth';
+import {
+  Button,
+  FormControl,
+  Stack,
+  Input,
+  Flex,
+  InputGroup,
+  InputLeftElement,
+} from '@chakra-ui/react';
+import { EmailIcon, EditIcon } from '@chakra-ui/icons';
+
+export default function RegisterView() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // const navigate = useNavigate()
-  // const location = useLocation()
+  const dispatch = useDispatch();
 
-  // function goToLogin(){
-  //   navigate(location?.state?.from ?? 'login');
-  // }
-
-  const dispatch=useDispatch();
-
-  const handleChange=({target:{name,value}})=>{
+  const handleChange = ({ target: { name, value } }) => {
     switch (name) {
       case 'name':
         setName(value);
@@ -28,74 +31,82 @@ export default function RegisterView (){
         setEmail(value);
         break;
 
-        case 'password':
+      case 'password':
         setPassword(value);
         break;
 
       default:
         return;
     }
-  }
+  };
 
+  const handleSubmit = e => {
+    e.preventDefault();
 
-    const handleSubmit = e => {
-        e.preventDefault();
-    
-        dispatch(authOperations.register({name,email,password}))
+    dispatch(authOperations.register({ name, email, password }));
 
-        setName('');
-        setEmail('');
-        setPassword('');
-      }
+    setName('');
+    setEmail('');
+    setPassword('');
+  };
 
-    return(
-        <>
-       
-       <form onSubmit={handleSubmit}>
-        <label >
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={handleChange}
-            placeholder="Name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-        </label>
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <Stack mx="auto" my="8" w="400px">
+          <FormControl>
+            <Flex flexDirection="column">
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<EditIcon color="gray.300" />}
+                />
+                <Input
+                  type="text"
+                  name="name"
+                  value={name}
+                  onChange={handleChange}
+                  placeholder="Name"
+                  pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+                  title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+                  mb="3"
+                  required
+                />
+              </InputGroup>
 
-        <label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            placeholder="Email"
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-        </label>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<EmailIcon color="gray.300" />}
+                />
+                <Input
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  mb="3"
+                  required
+                />
+              </InputGroup>
 
-        <label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-            placeholder="Password"
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-        </label>
-       
+              <Input
+                type="password"
+                name="password"
+                value={password}
+                onChange={handleChange}
+                placeholder="Password"
+                mb="3"
+                required
+              />
 
-      <button type="submit" >
-         Register
-        </button>
-        
-      </form></>
-    )
+              <Button type="submit" colorScheme="teal" variant="solid">
+                Sign In
+              </Button>
+            </Flex>
+          </FormControl>
+        </Stack>
+      </form>
+    </>
+  );
 }

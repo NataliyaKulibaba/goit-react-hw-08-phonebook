@@ -1,22 +1,21 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import s from './Navigation.module.css'
+import { Box, Flex, Link } from '@chakra-ui/react';
 
-
-export default function Navigation (){
+export default function Navigation() {
   return (
-  <nav>
-    <NavLink to="/" className={({ isActive }) => (isActive ? s.activeLink : s.link)}>
-      Главная
-    </NavLink>
+    <nav>
+      <Flex>
+        <Box mx="4">
+          <Link as={NavLink} to="/" color="teal.500">
+            Home
+          </Link>
+        </Box>
 
-    <NavLink
-      to="/contacts"
-      className={({ isActive }) => (isActive ? s.activeLink : s.link)}
-    >
-      Contacts
-    </NavLink>
-  </nav>
-  )
-};
-
+        <Link as={NavLink} to="/contacts" color="teal.500">
+          Contacts
+        </Link>
+      </Flex>
+    </nav>
+  );
+}

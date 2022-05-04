@@ -1,13 +1,20 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchContacts, addContact } from '../../redux/contacts/contacts-operations'
-// import contactsOperations from '../../redux/contacts'
+import {
+  fetchContacts,
+  addContact,
+} from '../../redux/contacts/contacts-operations';
 
-// import { addNewContact, getContacts } from '../../redux/contacts/contactsSlice';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
-import s from './Form.module.css';
+import {
+  Input,
+  Button,
+  InputGroup,
+  InputLeftElement,
+  Flex,
+  Stack,
+} from '@chakra-ui/react';
+import { PhoneIcon, EditIcon } from '@chakra-ui/icons';
 
 function Form() {
   const dispatch = useDispatch();
@@ -18,19 +25,19 @@ function Form() {
 
   const handleSubmit = e => {
     e.preventDefault();
+
     const newContactName = e.target.elements.name.value;
     const newContactNumber = e.target.elements.number.value;
 
     const newContact = {
       name: newContactName,
       number: newContactNumber,
-      // completed:true,
     };
 
     const contact = contacts.map(item => item.name);
     contact.includes(newContactName)
       ? Notify.info(`${name} is already in contact`)
-      : dispatch(addContact (newContact));
+      : dispatch(addContact(newContact));
 
     reset();
   };
@@ -62,45 +69,49 @@ function Form() {
   };
 
   return (
-    <>
+    <Flex justifyContent="center">
       <form onSubmit={handleSubmit}>
-        <label className={s.formLabel}>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={handleInputChange}
-            placeholder="Name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-        </label>
+        <Stack spacing={3} w="400px" mt='10'>
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<EditIcon color="gray.300" />}
+            />
+            <Input
+              id="name"
+              placeholder="Name"
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleInputChange}
+              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+              />
+          </InputGroup>
 
-        <label className={s.formLabel}>
-          <input
-            type="tel"
-            name="number"
-            value={number}
-            onChange={handleInputChange}
-            placeholder="Phone"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-        </label>
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<PhoneIcon color="gray.300" />}
+            />
+            <Input
+              placeholder="Number"
+              type="tel"
+              name="number"
+              value={number}
+              onChange={handleInputChange}
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            />
+          </InputGroup>
 
-        <button className={s.btmAdd} type="submit">
-          Add contact
-        </button>
+          <Button type="submit" colorScheme="teal" variant="solid" py="2" m="3">
+            Add contact
+          </Button>
+        </Stack>
       </form>
-    </>
+    </Flex>
   );
 }
-
-Form.propTypes = {
-  number: PropTypes.number,
-  name: PropTypes.string,
-};
 
 export default Form;

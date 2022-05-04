@@ -1,17 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import s from './Contacts.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-// import { contactsSelectors, changeFilter } from '../../../redux/contacts';
-import {deleteContact } from '../../redux/contacts/contacts-operations'
-
-
+import { deleteContact } from '../../redux/contacts/contacts-operations';
+import { UnorderedList, Flex, Button } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 function Contacts() {
   const dispatch = useDispatch();
   const contactList = useSelector(state => state.contacts.contacts);
   const filter = useSelector(state => state.contacts.filter);
-  
 
   const getVisibleContacts = () => {
     const normalizeFilter = filter.toLowerCase();
@@ -22,26 +18,31 @@ function Contacts() {
   };
 
   return (
-    <ul className={s.contactLict}>
+    <UnorderedList listStyleType="none">
       {getVisibleContacts().map(({ name, number, id }) => (
-        <li key={id} className={s.contactLictItem}>
-          {name}
-          <span>{number}</span>
-          <button
-            type="button"
-            className={s.btnDel}
-            onClick={() => dispatch(deleteContact(id))}
-          >
-            Delete
-          </button>
+        <li key={id}>
+          <Flex justifyContent="space-between" w="400px" m="auto">
+            {name}
+            <span>{number}</span>
+
+            <Button
+              type="button"
+              colorScheme="teal"
+              variant="outline"
+              p="1"
+              m="1"
+              size="35px"
+              onClick={() => dispatch(deleteContact(id))}
+            >
+              <DeleteIcon />
+            </Button>
+          </Flex>
         </li>
       ))}
-    </ul>
+    </UnorderedList>
   );
 }
 
-Contacts.propTypes = {
-  contacts: PropTypes.array,
-};
+
 
 export default Contacts;
